@@ -6,7 +6,7 @@ metadata:
     app: nginx 
 spec:
   replicas: 3  # 副本数量
-  selector:    # 选择器，如何选择 pod
+  selector:    # 选择器，如何查找要管理的 pod
     matchLabels:
       app: deployment-demo-nginx
   template:
