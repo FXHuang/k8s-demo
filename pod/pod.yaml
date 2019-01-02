@@ -7,17 +7,23 @@ metadata:
 spec:
   containers:
   - name: liveness
-    args:
-    - /server
-    image: k8s.gcr.io/liveness
+    # 启动容器执行的命令，command 和args 有什么区别？
+    command: ['sh', '-c', 'echo Hello Kubernetes! && sleep 3600']
+    image: nginx
+#    readinessProbe: # 指示容器是否准备好服务请求。如果就绪探测失败，端点控制器将从与 Pod 匹配的所有 Service 的端点中删除该 Pod 的 IP 地址。
     livenessProbe: # 如果容器内的服务挂掉，但容器并没有退出，则需要配置livenessProbe来检测服务状态，否则无需配置
+#      exec: # 在容器内执行指定命令。如果命令退出时返回码为 0 则认为诊断成功。
+#        command: ['sh', '-c', 'curl -v 127.0.0.1:80 |grep “200”']
+#      tcpSocket: # 对指定端口上的容器的 IP 地址进行 TCP 检查。如果端口打开，则诊断被认为是成功的。
+        # host: my-host
+#        port: 80
       httpGet: # 对指定的端口和路径上的容器的 IP 地址执行 HTTP Get 请求。如果响应的状态码大于等于200 且小于 400，则诊断被认为是成功的。
         # when "host" is not defined, "PodIP" will be used
         # host: my-host
         # when "scheme" is not defined, "HTTP" scheme will be used. Only "HTTP" and "HTTPS" are allowed
         # scheme: HTTPS
-        path: /healthz
-        port: 8080
+        path: /
+        port: 80
         httpHeaders:
         - name: X-Custom-Header
           value: Awesome
