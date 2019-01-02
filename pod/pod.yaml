@@ -11,7 +11,7 @@ spec:
     - /server
     image: k8s.gcr.io/liveness
     livenessProbe: # 如果容器内的服务挂掉，但容器并没有退出，则需要配置livenessProbe来检测服务状态，否则无需配置
-      httpGet:
+      httpGet: # 对指定的端口和路径上的容器的 IP 地址执行 HTTP Get 请求。如果响应的状态码大于等于200 且小于 400，则诊断被认为是成功的。
         # when "host" is not defined, "PodIP" will be used
         # host: my-host
         # when "scheme" is not defined, "HTTP" scheme will be used. Only "HTTP" and "HTTPS" are allowed
