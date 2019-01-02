@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx-deployment
+  name: deployment-demo
   labels:
     app: nginx
 spec:
   replicas: 3  # 副本数量
   selector:    # 选择器，如何选择pod
     matchLabels:
-      app: nginx
+      app: deployment-demo-nginx
   template:
     metadata:
       labels:  # pod 的labels
-        app: nginx
+        app: deployment-demo-nginx
     spec:
       containers:
       - name: nginx
