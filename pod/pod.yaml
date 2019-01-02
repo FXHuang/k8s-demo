@@ -29,4 +29,7 @@ spec:
           value: Awesome
       initialDelaySeconds: 15
       timeoutSeconds: 1
-    
+#  initContainers: # Init 容器完成一些初始化操作
+#  - name: init-myservice
+#    image: busybox
+#    command: ['sh', '-c', 'until nslookup myservice; do echo waiting for myservice; sleep 2; done;']
