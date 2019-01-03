@@ -2,6 +2,7 @@
 在Linux中，独立的网络虚拟化实现就是net namespace技术，依托别的技术实现的网络虚拟化就是虚拟机技术，
 
 
+
 ## 网卡物理层
 * 以太网ETHx：普通双绞线或者光纤；  
 * TUN/TAP：用户可以用文件句柄操作的字符设备；
@@ -13,9 +14,57 @@
 
 
 ## bridge
+https://wiki.linuxfoundation.org/networking/bridge
+
 
 ## bound & 子接口
-TODO https://jingyan.baidu.com/article/6f2f55a11faa17b5b93e6cda.html
+https://www.unixmen.com/linux-basics-create-network-bonding-on-centos-76-5/
+创建bound0网卡
+
+```
+modprobe bonding
+
+cat >/etc/sysconfig/network-scripts/ifcfg-bound0 <-EOF
+DEVICE=bond0
+NAME=bond0
+TYPE=Bond
+BONDING_MASTER=yes
+IPADDR=10.0.2.200  # change this
+NETMASK=255.255.255.0  # change this
+GATEWAY=192.168.1.1  # change this
+ONBOOT=yes
+BOOTPROTO=none
+BONDING_OPTS="mode=1 miimon=100" 
+EOF
+```
+
+修改作为slave0的网卡，添加
+
+```
+BOOTPROTO=none
+MASTER=bond0
+ONBOOT="yes"
+SLAVE=yes
+```
+如: 
+```
+cat >/etc/sysconfig/network-scripts/ifcfg-bound0-slave0 <-EOF
+DEVICE=enp0s17 # 更改为真实的网卡
+NAME=bond0-slave
+TYPE=Ethernet
+BOOTPROTO=none
+ONBOOT=yes
+MASTER=bond0
+SLAVE=yes
+EOF
+```
+
+```
+# 重启网络
+systemctl restart network.service
+# 查看生效
+cat /proc/net/bonding/bond0
+```
 
 ## 子接口
 https://www.jianshu.com/p/ea27fcd302b5
@@ -23,11 +72,13 @@ https://www.jianshu.com/p/ea27fcd302b5
 
 ```
 # 开启混杂模式
-ip link set ens160  promisc on
+ip link set bond0  promisc on
+ip link add link bond0 name bond0.201 type vlan id 201
+ip -d link show bond0.201
 
-# 增加子接口
-ifconfig ens160.1 10.241.0.1 netmask 255.255.255.0
-ifconfig ens160.1 10.241.0.1 netmask 255.255.255.0
+ip addr add 10.201.0.17/24 brd 10.201.0.255 dev bond0.201 
+ip link set dev bond0.201  up
+ip route replace 10.201.0.0/24 via 10.201.0.1 dev bond0.201
 ```
 
 持久化模式
