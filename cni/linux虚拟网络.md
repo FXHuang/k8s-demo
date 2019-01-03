@@ -22,7 +22,7 @@ https://www.unixmen.com/linux-basics-create-network-bonding-on-centos-76-5/
 创建bound0网卡
 
 ```
-modprobe bonding
+modprobe --first-time bonding
 
 cat >/etc/sysconfig/network-scripts/ifcfg-bound0 <-EOF
 DEVICE=bond0
