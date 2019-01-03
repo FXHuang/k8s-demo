@@ -18,13 +18,15 @@ https://wiki.linuxfoundation.org/networking/bridge
 
 
 ## bound & 子接口
-https://www.unixmen.com/linux-basics-create-network-bonding-on-centos-76-5/
+[官方文档](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/deployment_guide/sec-configuring_a_vlan_over_a_bond)
+[教程](https://www.unixmen.com/linux-basics-create-network-bonding-on-centos-76-5/)
+
 创建bound0网卡
 
 ```
 modprobe --first-time bonding
 
-cat >/etc/sysconfig/network-scripts/ifcfg-bound0 <-EOF
+cat >/etc/sysconfig/network-scripts/ifcfg-bound0 <<-EOF
 DEVICE=bond0
 NAME=bond0
 TYPE=Bond
@@ -48,7 +50,7 @@ SLAVE=yes
 ```
 如: 
 ```
-cat >/etc/sysconfig/network-scripts/ifcfg-bound0-slave0 <-EOF
+cat >/etc/sysconfig/network-scripts/ifcfg-bound0-slave0 <<-EOF
 DEVICE=enp0s17 # 更改为真实的网卡
 NAME=bond0-slave
 TYPE=Ethernet
@@ -69,9 +71,9 @@ ifdown /etc/sysconfig/network-scripts/ifcfg-bound0-slave0
 ```
 
 ## 子接口
-https://www.jianshu.com/p/ea27fcd302b5
-命令行模式
+[官方文档](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/deployment_guide/sec-configuring_a_vlan_over_a_bond)
 
+命令行模式
 ```
 # 开启混杂模式
 ip link set bond0  promisc on
@@ -83,8 +85,18 @@ ip link set dev bond0.201  up
 ip route replace 10.201.0.0/24 via 10.201.0.1 dev bond0.201
 ```
 
-持久化模式
+配置文件
 ```
+cat >/etc/sysconfig/network-scripts/ifcfg-bond0.192 <<-EOF
+DEVICE=bond0.192
+NAME=bond0.192
+BOOTPROTO=none
+ONPARENT=yes
+IPADDR=192.168.10.1
+NETMASK=255.255.255.0
+VLAN=yes
+NM_CONTROLLED=no
+EOF
 
 ```
 
