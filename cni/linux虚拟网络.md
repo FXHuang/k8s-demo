@@ -64,6 +64,8 @@ EOF
 systemctl restart network.service
 # 查看生效
 cat /proc/net/bonding/bond0
+# 测试，停掉一个网卡，网络不会中断
+ifdown /etc/sysconfig/network-scripts/ifcfg-bound0-slave0
 ```
 
 ## 子接口
