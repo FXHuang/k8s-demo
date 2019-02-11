@@ -1,8 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: deployment-demo  # deployment 名称
-  labels:  # deployment 的 labels
+  name: deployment-demo  
+  labels:  
     app: nginx 
 spec:
   replicas: 3  # 副本数量
@@ -14,13 +14,13 @@ spec:
   selector:    # 选择器，如何查找要管理的 pod,请确保没有别的controller使用相同的label
     matchLabels:
       app: deployment-demo-nginx
-  template:
+  template: # 同 pod,但 RestartPolicy 必须为Always(默认)
     metadata:
-      labels:  # pod 的 labels
+      labels: 
         app: deployment-demo-nginx
     spec:
       containers:
-      - name: nginx # pod 的名称
+      - name: nginx 
         image: nginx:1.15.4
         ports:  
         - containerPort: 80 
