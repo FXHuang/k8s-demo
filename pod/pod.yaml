@@ -19,12 +19,13 @@ spec:
 #    - "foo.local"
 #    - "bar.local"
 # 调度
-#  nodeSelector:
-#  nodeName: 
-#  tolerations:
-#  affinity:
+#  nodeSelector:  # 通过label 选择node，注意，先通过 `kubectl label nodes <node-name> <label-key>=<label-value>` 增加label
+#    disktype: ssd
+#  nodeName: xxx  # 直接调度到某个node上面，不建议使用 
+#  tolerations:   # 如果节点有污点，可以通过配置tolerations使pod能够调度到具有某污点到节点
+#  affinity:  # 亲和性,更灵活的控制pod调度,支持pod和node亲和性 : https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
 # 权限
-#  serviceAccountName: 
+#  serviceAccountName: xxx # 不指定，默认为: default
   containers:
   - name: liveness # 容器名称
     #TODO 启动容器执行的命令，command 和args 有什么区别？
