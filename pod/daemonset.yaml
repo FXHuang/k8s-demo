@@ -1,15 +1,15 @@
 apiVersion: apps/v1
-kind: DaemonSet
+kind: DaemonSet 
 metadata:
   name: fluentd-elasticsearch
   namespace: kube-system
   labels:
     k8s-app: fluentd-logging
 spec:
-  selector:
+  selector: # 选择 pod 的label
     matchLabels:
       name: fluentd-elasticsearch
-  template:
+  template: # 同 pod,但 RestartPolicy 必须为Always(默认)
     metadata:
       labels:
         name: fluentd-elasticsearch
