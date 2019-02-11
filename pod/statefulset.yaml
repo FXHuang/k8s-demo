@@ -13,7 +13,14 @@ spec:
     app: nginx
 ---
 apiVersion: apps/v1
-kind: StatefulSet
+kind: StatefulSet # https://kubernetes.io/docs/tutorials/stateful-application/basic-stateful-set/
+# 对于具有N个副本的StatefulSet，当部署Pod时，将按顺序从{0..N-1}开始创建它们。删除是{N-1..0}
+# 在将缩放操作应用于Pod之前，其所有前任必须是Running and Ready。在Pod终止之前，其所有后继者必须完全关闭。
+
+# 给定Pod的存储必须由PersistentVolume Provisioner根据请求的存储类进行配置，或者由管理员预先配置。
+# StatefulSets 目前要求 Headless Service 负责Pod的网络身份。您有责任创建此服务。
+# 删除和/或缩放StatefulSet将不会删除与StatefulSet关联的卷。这样做是为了确保数据安全，这通常比自动清除所有相关的StatefulSet资源更有价值。
+# 删除StatefulSet时，StatefulSets不提供对pod终止的任何保证。要在StatefulSet中实现pod的有序和正常终止，可以在删除之前将StatefulSet缩减为0。
 metadata:
   name: web
 spec:
