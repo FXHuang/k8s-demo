@@ -9,7 +9,8 @@ spec:
   selector:
     app: MyApp
   ports:
-    - protocol: TCP # 默认TCP，支持：TCP, UDP, SCTP
+    - name: http # 多个port，名称必须指定为不同值
+      protocol: TCP # 默认TCP，支持：TCP, UDP, SCTP
       port: 80   # service 端口，默认为targetPort
       targetPort: 9376  # pod 的端口
 #      nodePort: 30376  # NodePort端口，默认自动分配，可以指定
