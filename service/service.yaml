@@ -1,0 +1,23 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: my-service
+spec:
+  selector:
+    app: MyApp
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 9376
+      
+---
+# 如果没有selector，可以手动创建Endpoints
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: my-service
+subsets:
+  - addresses:
+      - ip: 1.2.3.4
+    ports:
+      - port: 9376
