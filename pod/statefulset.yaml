@@ -23,13 +23,13 @@ kind: StatefulSet # https://kubernetes.io/docs/tutorials/stateful-application/ba
 # 删除StatefulSet时，StatefulSets不提供对pod终止的任何保证。要在StatefulSet中实现pod的有序和正常终止，可以在删除之前将StatefulSet缩减为0。
 metadata:
   name: web
-spec:
+spec: #TODO 待整理， 具体参数见:https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.12/#statefulsetspec-v1-apps
   selector:
     matchLabels:
       app: nginx # has to match .spec.template.metadata.labels
   serviceName: "nginx"
   replicas: 3 # by default is 1
-  template:
+  template: # 同 pod (内部结构见：https://github.com/zgfh/k8s-demo/blob/master/pod/pod.yaml)
     metadata:
       labels:
         app: nginx # has to match .spec.selector.matchLabels
