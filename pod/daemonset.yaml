@@ -9,7 +9,7 @@ spec:
   selector: # 选择 pod 的label
     matchLabels:
       name: fluentd-elasticsearch
-  template: # 同 pod,但 RestartPolicy 必须为Always(默认)
+  template: # 同 pod (内部结构见：https://github.com/zgfh/k8s-demo/blob/master/pod/pod.yaml), 但 RestartPolicy 必须为Always(默认)
     metadata:
       labels:
         name: fluentd-elasticsearch
