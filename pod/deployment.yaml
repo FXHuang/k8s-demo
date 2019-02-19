@@ -14,7 +14,7 @@ spec:
   selector:    # 选择器，如何查找要管理的 pod,请确保没有别的controller使用相同的label
     matchLabels:
       app: deployment-demo-nginx
-  template: # 同 pod,但 RestartPolicy 必须为Always(默认)
+  template: # 同 pod (内部结构见：https://github.com/zgfh/k8s-demo/blob/master/pod/pod.yaml),但 RestartPolicy 必须为Always(默认)
     metadata:
       labels: 
         app: deployment-demo-nginx
