@@ -1,18 +1,17 @@
 apiVersion: v1
-kind: ResourceQuota # docs: https://kubernetes.io/docs/concepts/policy/resource-quotas/
+kind: ResourceQuota #针对空间总量 docs: https://kubernetes.io/docs/concepts/policy/resource-quotas/
 metadata:
   name: object-quota-demo
+  namespace: default
 spec:
   hard:
-    cpu: "1"
-    memory: 1Gi # TODO
+    # 计算
     limits.cpu: "1"
     limits.memory: 1Gi
     requests.cpu: "1"
     requests.memory: 1Gi
-    
     requests.nvidia.com/gpu: "1"
-    
+    # 存储
     requests.storage: 500Gi
     persistentvolumeclaims: "1"
     # <storage-class-name>.storageclass.storage.k8s.io/requests.storage: 500Gi
