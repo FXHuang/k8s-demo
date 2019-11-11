@@ -1,6 +1,6 @@
 apiVersion: policy/v1beta1
-kind: PodSecurityPolicy
-metadata:
+kind: PodSecurityPolicy # pod security权限 管理 https://kubernetes.io/docs/concepts/policy/pod-security-policy/
+metadata:               # 需要开启PodSecurityPolicy 参考:https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#how-do-i-turn-on-an-admission-control-plug-in
   name: example
 spec:
   privileged: false  # Don't allow privileged pods!
