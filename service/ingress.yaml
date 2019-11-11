@@ -65,7 +65,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: test-ingress-path-1 # 代理 ingress-demo-nginx:80/test 到 ingress-demo-nginx:80/test
-spec:
+spec: # 默认ingress的语法就这些，更复杂的配置要跟查询各ingress的文档
   rules:
   - host: test2.dev.k8s.geniusafc.com
     http:
