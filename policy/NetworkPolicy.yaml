@@ -4,13 +4,13 @@ metadata:
   name: test-network-policy
   namespace: default
 spec:
-  podSelector:
+  podSelector: #选择一组pod
     matchLabels:
       role: db
   policyTypes:
   - Ingress
   - Egress
-  ingress:
+  ingress: # 代表符合下面条件的资源的流量能进入上面选择的pod
   - from:
     - ipBlock:
         cidr: 172.17.0.0/16
@@ -22,10 +22,10 @@ spec:
     - podSelector:
         matchLabels:
           role: frontend
-    ports:
+    ports: 
     - protocol: TCP
       port: 6379
-  egress:
+  egress: # 代表上面选择的pod能访问符合下面条件的资源
   - to:
     - ipBlock:
         cidr: 10.0.0.0/24
